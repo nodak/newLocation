@@ -1,7 +1,7 @@
 package naxa.location;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
+//import android.app.Activity;
+//import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,20 +15,19 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-//import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends FragmentActivity implements LocationListener  {
 	
-	static GoogleMap googleMap;
+	GoogleMap googleMap;
 	LatLng latLong;
 	double latitude, longitude;
-	SharedPreferences shPref;
 	long back_pressed;
 	static int mapType;
-	static final String PREFERENCES = "PREFERENCES";
-	//Marker marker;
-	
+	//static final String PREF = "PREF";
+	//SharedPreferences shPref;
+	//int mapType;
+		
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
@@ -65,21 +64,16 @@ public class MainActivity extends FragmentActivity implements LocationListener  
 		latitude = location.getLatitude();
 		longitude = location.getLongitude();
 		latLong = new LatLng( latitude, longitude );
-		
-		//marker.remove();
 		googleMap.addMarker( new MarkerOptions().position( latLong ).title( "Me" ) );
 	}
 
 	private void setMapType() { 
-		int mode = Activity.MODE_PRIVATE;
-		shPref = getSharedPreferences( PREFERENCES, mode );
-		mapType = shPref.getInt( "mapType", 1 );
-		
-		//if ( 0 == ( mapType = shPref.getInt( PREFERENCES, 1 ) ) ) {
-		if ( (0 == mapType) || ( 1 == mapType ) ) {
-			googleMap.setMapType( GoogleMap.MAP_TYPE_HYBRID );
-		} else {
+		//shPref = getSharedPreferences( PREF, Activity.MODE_PRIVATE );
+		//mapType = shPref.getInt( "mapType", 1 );
+		if (  0 != mapType  ) {
 			googleMap.setMapType( mapType );
+		} else {
+			googleMap.setMapType( GoogleMap.MAP_TYPE_HYBRID );
 		}
 	}
 
@@ -91,27 +85,29 @@ public class MainActivity extends FragmentActivity implements LocationListener  
 
 	@Override
 	public boolean onOptionsItemSelected( MenuItem item ) {
-		shPref = getPreferences( MODE_PRIVATE );
-		SharedPreferences.Editor edit = shPref.edit();
-		
+		//shPref = getSharedPreferences( PREF, Activity.MODE_PRIVATE );
+		//SharedPreferences.Editor edit = shPref.edit();
 		switch ( item.getItemId() ) {
 			case R.id.action_item1:
 				mapType = GoogleMap.MAP_TYPE_NORMAL;
-				edit.putInt( "mapType", mapType );
-				edit.commit();
 				googleMap.setMapType( mapType );
+				//edit.putInt( "mapType", mapType );
+				//edit.putInt( "mapType", GoogleMap.MAP_TYPE_NORMAL );
+				//edit.commit();
 				return true;
 			case R.id.action_item2:
 				mapType = GoogleMap.MAP_TYPE_SATELLITE;
-				edit.putInt( "mapType", mapType );
-				edit.commit();
 				googleMap.setMapType( mapType );
+				//edit.putInt( "mapType", mapType );
+				//edit.putInt( "mapType", GoogleMap.MAP_TYPE_SATELLITE );
+				//edit.commit();
 				return true;
 			case R.id.action_item3:
 				mapType = GoogleMap.MAP_TYPE_TERRAIN;
-				edit.putInt( "mapType", mapType );
-				edit.commit();
 				googleMap.setMapType( mapType );
+				//edit.putInt( "mapType", mapType );
+				//edit.putInt( "mapType", GoogleMap.MAP_TYPE_TERRAIN );
+				//edit.commit();
 				return true;
 			default:
 				return true;
